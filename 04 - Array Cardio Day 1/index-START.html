@@ -53,7 +53,7 @@
     // Array.prototype.sort()
     // 3. Sort the inventors by birthdate, oldest to youngest
     const ordered = inventors.sort((a, b) => 
-    a > b ? 1 : -1);
+    a.year > b.year ? 1 : -1);
     console.table(ordered);
 
     // Array.prototype.reduce()
@@ -72,21 +72,21 @@
 
     console.table(oldest);
 
-    // // 6. create a list of Boulevards in Paris that contain 'de' anywhere in the name
-    // // https://en.wikipedia.org/wiki/Category:Boulevards_in_Paris
-    // const category = document.querySelector('.mw-category');
+    // 6. create a list of Boulevards in Paris that contain 'de' anywhere in the name
+    // https://en.wikipedia.org/wiki/Category:Boulevards_in_Paris
+    const category = document.querySelector('.mw-category');
 
-    // /*  queryselector on a DOM object within the document is possible
-    //     querySelector returns NodeList, which does not include map as a prototype
-    //     we need to transform NodeList to Array
-    // */
-    // const links = Array.from(category.querySelectorAll('a'))
-    // // const link = [...category.querySelectorAll('a')] is possible as well
+    /*  queryselector on a DOM object within the document is possible
+        querySelector returns NodeList, which does not include map as a prototype
+        we need to transform NodeList to Array
+    */
+    const links = Array.from(category.querySelectorAll('a'))
+    // const link = [...category.querySelectorAll('a')] is possible as well
     
-    // const de = links.map(link => link.textContent)
-    //                 .filter(streetName => streetName.includes('de')) // this will create an array of textcontent
+    const de = links.map(link => link.textContent)
+                    .filter(streetName => streetName.includes('de')) // this will create an array of textcontent
     
-    // console.log(de);
+    console.log(de);
   
     // 7. sort Exercise
     // Sort the people alphabetically by last name
