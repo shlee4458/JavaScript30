@@ -19,28 +19,64 @@
     }
 
     // Regular
+    console.log('hello');
 
     // Interpolated
+    console.log('I am %s', 'sh');
 
     // Styled
+    console.log('%c I am a text', 'font-size:50px; background: red;')
 
     // warning!
-
+    console.warn('oh no');
+    
     // Error :|
+    console.error('dang');
 
     // Info
+    console.info('Hello my name is yish')
 
     // Testing
+    const p = document.querySelector('p');
+
+    console.assert(p.classList.contains('ouch'), 'this is wrong'); // this will only show when it is wrong
 
     // clearing
+    console.clear();
 
     // Viewing DOM Elements
+    console.log(p);
+    console.dir(p); // lists all the methods and properties associated with the DOM element
 
     // Grouping together
+    dogs.forEach(dog => {
+      console.groupCollapsed(`${dog.name}`); // Start the group, groupCollapsed -> collapse as a default
+      console.log(`This is ${dog.name}`);
+      console.log(`${dog.name} is ${dog.age} years old`);
+      console.log(`${dog.name} is ${dog.age * 7} dog years old`);
+      console.log(`This is ${dog.name}`);
+      console.groupEnd(`${dog.name}`); // End the group with the same signature
+    })
 
     // counting
+    console.count('sh');
+    console.count('yi');
+    console.count('sh');
+    console.count('yi');
+    console.count('sh');
+    console.count('sh');
+    console.count('yi'); // tell how many times it was counted
 
     // timing
+    console.time('Fetching data');
+    fetch('https://api.github.com/users/wesbos')
+      .then(data => data.json())
+      .then(data => {
+        console.timeEnd('Fetching data'); // timeEnd with the same signature
+        console.log(data);
+      })
+
+      console.table(dogs);
 
   </script>
 </body>
