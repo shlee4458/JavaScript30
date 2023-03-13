@@ -8,6 +8,57 @@
 <body>
 <canvas id="draw" width="800" height="800"></canvas>
 <script>
+const canvas = document.querySelector('#draw');
+const ctx = canvas.getContext('2d');
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+ctx.strokeStyle = "#BADA55";
+ctx.lineJoin = 'round';
+ctx.lineCap = 'round';
+ctx.lineWidth = 100; // thicker line
+let hue = 0;
+
+let isDrawing = false;
+let lastX = 0;
+let lastY = 0;
+let direction = true;
+ctx.globalCompositeOperation = 'multiply'
+
+function draw(e) {
+  if (!isDrawing) {
+    return; // stop drawing when the state is not drawing
+  }
+  ctx.beginPath();
+  ctx.strokeStyle = `hsl(${hue}, 100%, 50%)`
+  ctx.moveTo(lastX, lastY); //move the pointer to lastX and lastY
+  ctx.lineTo(e.offsetX, e.offsetY); // draw line to here
+  ctx.stroke();
+  [lastX, lastY] = [e.offsetX, e.offsetY]; // update the lastX, lastY
+  // this is where it is going to start in the next draw function call
+  hue++;
+  if (hue > 360) {
+    hue = 0;
+  }
+
+  if (ctx.lineWidth >= 100 || ctx.lineWidth <= 1) {
+    direction = !direction;
+  }
+  if (direction) {
+    ctx.lineWidth++;
+  } else {
+    ctx.lineWidth--;
+  }
+}
+
+// Set the drawing start point at lastX and lastY when mouse is down
+canvas.addEventListener('mousedown', (e) => {
+  isDrawing = true; // switch on
+  [lastX, lastY] = [e.offsetX, e.offsetY]; // get the current pixel using e.offsetX
+});
+canvas.addEventListener('mousemove', draw);
+canvas.addEventListener('mouseup', () => isDrawing = false) // turn off the switch
+canvas.addEventListener('mouseout', () => isDrawing = false)
+
 </script>
 
 <style>
