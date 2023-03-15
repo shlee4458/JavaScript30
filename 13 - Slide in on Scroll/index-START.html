@@ -59,6 +59,32 @@
       };
     }
 
+    const sliderImages = document.querySelectorAll('.slide-in');
+
+    function checkSlide(e) {
+      sliderImages.forEach(sliderImage => {
+        // scorllY: number of pixels that was scrolled
+        // innerHeight: the total height of the showing screen in pixels, smaller height if screen is smaller
+        // when the number of pixels scrolled + height of the screen hits the half of the height of the image
+        // that is when the image should be sliding in 
+        const slideInAt = (window.innerHeight + window.scrollY - sliderImage.height / 2);
+        const imageBottom = sliderImage.offsetTop + sliderImage.height;
+        const isHalfShown = slideInAt > sliderImage.offsetTop;
+        const isNotScrolledPast = window.scrollY < imageBottom; // when scrollY is at the position of 
+        // imageBottom + window.innerHeight, that is when it is scrolled past
+
+        // when it is half shown and is not scrolled past, shows the picture
+        if (isHalfShown && isNotScrolledPast) {
+          sliderImage.classList.add('active');
+        } else {
+          sliderImage.classList.remove('active');
+        }
+      })
+    }
+
+    // debounce to call the function limited time when scrolling the screen
+    window.addEventListener('scroll', debounce(checkSlide));
+
   </script>
 
   <style>
