@@ -29,7 +29,65 @@
 <script>
   const addItems = document.querySelector('.add-items');
   const itemsList = document.querySelector('.plates');
-  const items = [];
+  const items = JSON.parse(localStorage.getItem('items')) || []; // try getting the array from the
+  // localStorage, and if not exists assign empty array
+
+  function addItem(e) {
+    e.preventDefault(); // this will not reload the page, submit reloads the page in default
+    const text = (this.querySelector('[name = item]')).value; // this will be the value of the input
+
+    const item = { // us item object to store both text and boolean whether it is done or not
+      text, // ES6 shorthand
+      done: false
+    };
+
+    items.push(item);
+    populateList(items, itemsList);
+
+    localStorage.setItem('items', JSON.stringify(items)); // I want to store in the local storage (key : value) = ('items', items array)
+    // since local storage only stores string(it calls toString to the function), we need to stringify before putting
+    // it in the local storage
+    // localStorage.getItem('items') to get JSON
+    // we call JSON.parse(items) to turn into original JSON objects
+    this.reset();
+  }
+
+  /* Take a list of plate and add to the platesList */
+  function populateList(plates = [], platesList) {
+    platesList.innerHTML = plates.map((plate, i) => {
+      return `
+        <li>
+          <input type="checkbox" data-index="${i}" id="item${i}" 
+          ${plate.done ? 'checked' : ''}>
+          <label for="item${i}">${plate.text}</label>
+        </li>
+      `
+    }).join(' ')
+  }
+
+  function toggleDone(e) {
+    if (!e.target.matches('input')) return; // if the target is label return
+    const el = e.target;
+    const index = el.dataset.index;
+    items[index].done = !items[index].done; // access the array with the index
+    localStorage.setItem('items', JSON.stringify(items)); // cache the changed value in the localStorage
+  }
+
+  addItems.addEventListener('submit', addItem)
+
+  
+  /* const checkboxes = document.querySelectorAll('input');
+  checkboxes.forEach(checkbox => checkbox.addEventListener('change', alert('hi')))
+  this will not work if you add another item -- checkboxes is a const variable 
+  that was linked to the html that existed before overwritting */
+
+  // this leads to the need of event delegation -- the parent that exists all time
+  itemsList.addEventListener('click', toggleDone)
+  // In event delegation, the function maybe called multiple times
+  // toggleDone will be called twice -- once on input and once on label
+
+  populateList(items, itemsList); // this is called when the page first loads regardless of whether
+  // event listner was called or not
 
 </script>
 
