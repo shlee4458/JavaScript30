@@ -183,6 +183,20 @@
     </li>
   </ul>
 <script>
+  const timeNodes = Array.from(document.querySelectorAll('[data-time]')); // get the array of li elements that contains data-time
+  const seconds = timeNodes
+    .map(node => node.dataset.time) // return array of the value of data-time attribute
+    .map(timeCode => {
+      const [mins, secs] = timeCode.split(':').map(parseFloat); // split the timecode
+      return (mins * 60) + secs;}) // return the total seconds
+    .reduce((total, vidSeconds) => total + vidSeconds) // return the array of cumulative seconds
+    
+    let secondsLeft = seconds; 
+    const hours = Math.floor(secondsLeft / 3600); // calculate hours
+    secondsLeft = secondsLeft % 3600;
+    const mins = Math.floor(secondsLeft / 60); // calculate mins
+    console.log(hours, mins, secondsLeft);
+    
 </script>
 </body>
 </html>
