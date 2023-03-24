@@ -13,6 +13,32 @@
 <script>
   window.SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 
+  const recognition = new SpeechRecognition();
+  recognition.interimResults = true; // now the speech will recognize when there is a break between speeches
+
+  // create element p and append it to the words div
+  let p = document.createElement('p')
+  const words = document.querySelector('.words');
+  words.appendChild(p);
+
+  recognition.addEventListener('result', e => {
+    const transcript = Array.from(e.results) // get the spoken words
+      .map(result => result[0])
+      .map(result => result.transcript)
+      .join("")
+      
+      p.textContent = transcript; // assign transcript to textContent
+
+      if (e.results[0].isFinal) { // if the speech came to an end
+        p = document.createElement('p'); // overwrite existing element
+        words.appendChild(p);
+      }
+
+    console.log(transcript);
+  })
+
+  recognition.addEventListener('end', recognition.start) // when the speech ends, restart for the speech reconition
+  recognition.start()
 
 </script>
 
