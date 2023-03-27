@@ -43,7 +43,17 @@
 
 <button></button>
 <script>
+  const divs = document.querySelectorAll('div');
+  
+  function logText(e) {
+    console.log(this.classList.value);
+    e.stopPropagation(); // this will stop after the first event listener
+  }
 
+  divs.forEach(div => div.addEventListener('click', logText, {
+    capture: false,
+    once: true // once clicked, eventlistener will be removed!
+  })); // capture is false in default - in default; it will bubble up(inner most to outer)
 </script>
 </body>
 </html>
