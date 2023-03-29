@@ -64,6 +64,7 @@
     const x = e.pageX - slider.offsetLeft;
     const walk = (x - startX) * 3;
     slider.scrollLeft = scrollLeft - walk;
+    slider.scrollLeft = walk;
   });
 
 </script>

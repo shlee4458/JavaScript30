@@ -36,6 +36,37 @@
   </div>
 
 <script>
+  const slider = document.querySelector('.items');
+  let isDown = false;
+  let startX;
+  let scrollLeft;
+
+  slider.addEventListener("mousedown", (e) => {
+    isDown = true;
+    slider.classList.add('active');
+    startX = e.pageX - slider.offsetLeft; /* get the x coordinate of where it was clicked */
+    scrollLeft = slider.scrollLeft; /* how much the screen has been scrolled */
+    console.log(scrollLeft);
+  })
+
+  slider.addEventListener('mouseleave', () => {
+    isDown = false;
+    slider.classList.remove('active');
+  });
+
+  slider.addEventListener('mouseup', () => {
+    isDown = false;
+    slider.classList.remove('active');
+  });
+
+  slider.addEventListener("mousemove", (e) => {
+    if (!isDown) return; /* If mouse is not down, stop */
+    e.preventDefault()
+    const x = e.pageX - slider.offsetLeft; /* where is the cursor at the point of the moving */
+    const walk = x - startX; /* How far have you deviated from the point you clicked */
+    slider.scrollLeft = scrollLeft - walk; /* Assign scroll left with the */
+  })
+
 </script>
 
   </body>
